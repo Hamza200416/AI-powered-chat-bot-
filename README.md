@@ -1,82 +1,65 @@
-Modules and Tools Used
+Step-by-Step Guide to Run the Chatbot on Your PC
 
-spacy – for Named Entity Recognition (NER).
+ 1. Install Python
 
-sentence-transformers – to convert questions into vector embeddings.
+- Download and install Python 3.8 or newer from: https://www.python.org/downloads/
 
-faiss – Facebook’s library for efficient similarity search.
+- During installation, check Add Python to PATH.
 
-json and datetime – for logging conversations.
+ 2. Prepare Your Project Folder
 
-defaultdict – to track unanswered queries.
+- Create a folder (e.g., chatbot).
 
+- Place your chatbot code into a file named chatbot.py.
 
+ 3. Fix Code Errors
 
----
+- Replace curly quotes ( ) with standard quotes (" ").
 
-⚙️ Working Principle (Step-by-step)
+- Fix indentation and capitalization errors like 'If' to 'if', and correct 'def' declarations.
 
-1. Initialization
+- (You can request a cleaned version from ChatGPT.)
 
-Loads a small English NLP model (en_core_web_sm) for entity extraction.
+ 4. Install Required Libraries
 
-Loads the SentenceTransformer model (all-MiniLM-L6-v2) for sentence embedding.
+Open terminal and run:
 
+pip install faiss-cpu
 
-2. Knowledge Base Setup
+pip install sentence-transformers
 
-A dictionary of predefined FAQs (question-answer pairs) is created.
+pip install spacy
 
-The keys (questions) are embedded into vectors using the embedding model.
+python -m spacy download en_core_web_sm
 
+ 5. Run the Bot
 
-3. FAISS Indexing
+- Navigate to the chatbot folder:cd path\to\your\chatbot\folder
 
-FAISS is initialized with the vector dimension.
+- Run the chatbot:
 
-Encoded questions are added to the FAISS index for similarity search.
+python chatbot.py
 
+You will see:
 
-4. Main Functionalities
+Smart E-commerce Chatbot (type 'quit' to stop)
 
-a. retrieve_faq(query, top_k=1)
+You:
 
-Converts the input query into an embedding.
+Type your question (e.g., Do you offer free shipping?) and the bot will respond.
 
-Searches for the most similar question in the knowledge base using FAISS.
+ 6. Check Logs
 
-Returns the best-matching answer or logs the query as "unknown" if no match is found.
+All chats are saved in chat_logs.json in the same folder.
 
+ What the Code Does:
 
-b. extract_entities(user_input)
+- Uses spaCy to extract entities (like product names).
 
-Uses spaCy to extract named entities (like product names, dates, etc.).
+- Uses SentenceTransformer to convert questions to vectors.
 
-Helpful for understanding context or future recommendation systems.
+- Uses FAISS to search for the most similar question.
 
+- Returns the answer from a predefined FAQ.
 
-c. generate_response(user_input)
-
-First, extracts entities (if any).
-
-Then, retrieves the closest FAQ answer via retrieve_faq.
-
-
-d. log_conversation(user_input, bot_response)
-
-Logs the conversation with a timestamp to chat_logs.json for later analysis or training.
-
-
-e. chat()
-
-The main loop that runs the chatbot.
-
-Takes user input, generates responses, prints, and logs them.
-
-
-5. Entry Point
-
-if __name__ == "__main__":
-    chat()
-
-Runs the chatbot when the script is executed directly.
+- Logs unknown questions and all conversations for improvement.
